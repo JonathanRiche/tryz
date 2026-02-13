@@ -5,6 +5,7 @@ const builtin = @import("builtin");
 const SCRIPT_HEADER =
     "# if you can read this, you didn't launch try from an alias. run try --help.\n";
 const DEFAULT_TRIES_PATH_SUFFIX = "src/tries";
+const APP_NAME = "tryz";
 const VERSION = "dev";
 const ANSI_RESET = "\x1b[0m";
 const ANSI_BOLD = "\x1b[1m";
@@ -800,7 +801,7 @@ fn cmdRoute(allocator: std.mem.Allocator, args: [][]const u8, tries_path: []cons
     }
 
     if (std.mem.eql(u8, subcmd, "--version") or std.mem.eql(u8, subcmd, "-v")) {
-        return printStdout("try {s}\n", .{VERSION});
+        return printStdout("{s} {s}\n", .{ APP_NAME, VERSION });
     }
 
     if (std.mem.eql(u8, subcmd, "init")) {
@@ -835,7 +836,7 @@ fn cmdRoute(allocator: std.mem.Allocator, args: [][]const u8, tries_path: []cons
 
 fn printHelp(allocator: std.mem.Allocator, tries_path: []const u8) !void {
     _ = allocator;
-    try printStdout("try v{s} - ephemeral workspace manager\n", .{VERSION});
+    try printStdout("{s} v{s} - ephemeral workspace manager (Zig)\n", .{ APP_NAME, VERSION });
     try printStdout("\n", .{});
     try printStdout("Shell integration:\n", .{});
     try printStdout("  echo 'eval \"$(try init ~/src/tries)\"' >> ~/.zshrc\n", .{});
@@ -884,7 +885,7 @@ pub fn main() !void {
         }
 
         if (std.mem.eql(u8, arg, "--version") or std.mem.eql(u8, arg, "-v")) {
-            try printStdout("try {s}\n", .{VERSION});
+            try printStdout("{s} {s}\n", .{ APP_NAME, VERSION });
             return;
         }
 
